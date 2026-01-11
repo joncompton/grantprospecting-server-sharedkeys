@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant Prospecting Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primary: #1e5f8c;
+            --color-secondary: #2d8659;
+            --color-accent: #e8833a;
+            --color-bg: #fafbfc;
+            --color-surface: #ffffff;
+            --color-border: #e1e4e8;
+            --color-text-primary: #24292e;
+            --color-text-secondary: #586069;
+            --color-text-muted: #959da5;
+            --color-success: #28a745;
+            --color-warning: #ffc107;
+            --color-error: #dc3545;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--color-surface);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 1.25rem 1.5rem;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .panel-body {
+            padding: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--color-secondary);
+            border-radius: 2px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: var(--color-bg);
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(30, 95, 140, 0.1);
+        }
+
+        .info-box {
+            background: rgba(30, 95, 140, 0.05);
+            border-left: 4px solid var(--color-primary);
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .info-box strong {
+            color: var(--color-text-primary);
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--color-border);
+            margin: 1.5rem 0;
+        }
+
+        .context-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            background: var(--color-bg);
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 2px;
+            accent-color: var(--color-secondary);
+        }
+
+        .checkbox-label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .checkbox-title {
+            font-weight: 500;
+            color: var(--color-text-primary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .checkbox-description {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+        }
+
+        .collapsible-section {
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .collapsible-header {
+            padding: 1rem;
+            background: var(--color-bg);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(30, 95, 140, 0.05);
+        }
+
+        .collapsible-title {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .collapsible-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-section.open .collapsible-arrow {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-section.open .collapsible-content {
+            max-height: 2000px;
+        }
+
+        .collapsible-body {
+            padding: 1rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn-icon {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .results-area {
+            position: sticky;
+            top: 2rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .results-count {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .results-content {
+            min-height: 400px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1.5rem;
+            border: 4px solid var(--color-border);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .results-area {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>Grant Prospecting Tool</h1>
+            <p class="tagline">AI-powered grant discovery using Claude Research Mode and Candid data</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Configuration Panel -->
+        <div class="config-panel">
+            <div class="panel">
+                <div class="panel-header">Configuration</div>
+                <div class="panel-body">
+                    <!-- System Prompt -->
+                    <div class="section">
+                        <div class="section-title">System Prompt</div>
+                        <div class="info-box">
+                            <strong>Customize Claude's behavior:</strong> Define how Claude should approach grant research, what criteria to prioritize, and how to present results.
+                        </div>
+                        
+                        <label for="system-prompt">Research Instructions</label>
+                        <textarea id="system-prompt" rows="6">You are an expert grant researcher helping nonprofits find relevant funding opportunities. 
+
+When researching grants, you should:
+1. Prioritize grants that closely match the organization's mission and selected context parameters
+2. Provide detailed information about eligibility requirements and deadlines
+3. Highlight any special considerations or unique aspects of each grant
+4. Present findings in a clear, actionable format
+
+Focus on quality over quantity - better to find 5 highly relevant grants than 20 marginal matches.</textarea>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Context Parameters -->
+                    <div class="section">
+                        <div class="section-title">Context Parameters</div>
+                        <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                            Select parameters to customize your grant search
+                        </p>
+
+                        <div class="collapsible-section open">
+                            <div class="collapsible-header" onclick="toggleSection(this)">
+                                <span class="collapsible-title">Organization Details</span>
+                                <span class="collapsible-arrow">▼</span>
+                            </div>
+                            <div class="collapsible-content">
+                                <div class="collapsible-body">
+                                    <div class="context-grid">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-501c3" name="context" value="501c3">
+                                            <label for="ctx-501c3" class="checkbox-label">
+                                                <span class="checkbox-title">501(c)(3) Status</span>
+                                                <span class="checkbox-description">Organization has tax-exempt status</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-new-org" name="context" value="new-org">
+                                            <label for="ctx-new-org" class="checkbox-label">
+                                                <span class="checkbox-title">Newly Established</span>
+                                                <span class="checkbox-description">Founded within the last 3 years</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-grassroots" name="context" value="grassroots">
+                                            <label for="ctx-grassroots" class="checkbox-label">
+                                                <span class="checkbox-title">Grassroots Organization</span>
+                                                <span class="checkbox-description">Community-based, small budget</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="collapsible-section open">
+                            <div class="collapsible-header" onclick="toggleSection(this)">
+                                <span class="collapsible-title">Focus Areas</span>
+                                <span class="collapsible-arrow">▼</span>
+                            </div>
+                            <div class="collapsible-content">
+                                <div class="collapsible-body">
+                                    <div class="context-grid">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-education" name="context" value="education">
+                                            <label for="ctx-education" class="checkbox-label">
+                                                <span class="checkbox-title">Education</span>
+                                                <span class="checkbox-description">K-12, higher ed, literacy programs</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-health" name="context" value="health">
+                                            <label for="ctx-health" class="checkbox-label">
+                                                <span class="checkbox-title">Health & Wellness</span>
+                                                <span class="checkbox-description">Healthcare access, mental health, public health</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-environment" name="context" value="environment">
+                                            <label for="ctx-environment" class="checkbox-label">
+                                                <span class="checkbox-title">Environment</span>
+                                                <span class="checkbox-description">Conservation, climate, sustainability</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-arts" name="context" value="arts">
+                                            <label for="ctx-arts" class="checkbox-label">
+                                                <span class="checkbox-title">Arts & Culture</span>
+                                                <span class="checkbox-description">Museums, performing arts, cultural programs</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-social-services" name="context" value="social-services">
+                                            <label for="ctx-social-services" class="checkbox-label">
+                                                <span class="checkbox-title">Social Services</span>
+                                                <span class="checkbox-description">Housing, food security, human services</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-youth" name="context" value="youth">
+                                            <label for="ctx-youth" class="checkbox-label">
+                                                <span class="checkbox-title">Youth Development</span>
+                                                <span class="checkbox-description">After-school, mentoring, youth programs</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="collapsible-section">
+                            <div class="collapsible-header" onclick="toggleSection(this)">
+                                <span class="collapsible-title">Grant Specifications</span>
+                                <span class="collapsible-arrow">▼</span>
+                            </div>
+                            <div class="collapsible-content">
+                                <div class="collapsible-body">
+                                    <div class="context-grid">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-operating" name="context" value="operating">
+                                            <label for="ctx-operating" class="checkbox-label">
+                                                <span class="checkbox-title">General Operating Support</span>
+                                                <span class="checkbox-description">Unrestricted funding for operations</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-program" name="context" value="program">
+                                            <label for="ctx-program" class="checkbox-label">
+                                                <span class="checkbox-title">Program/Project Grants</span>
+                                                <span class="checkbox-description">Funding for specific initiatives</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-capital" name="context" value="capital">
+                                            <label for="ctx-capital" class="checkbox-label">
+                                                <span class="checkbox-title">Capital/Equipment</span>
+                                                <span class="checkbox-description">Buildings, renovations, major equipment</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-capacity" name="context" value="capacity">
+                                            <label for="ctx-capacity" class="checkbox-label">
+                                                <span class="checkbox-title">Capacity Building</span>
+                                                <span class="checkbox-description">Organizational development, training</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="collapsible-section">
+                            <div class="collapsible-header" onclick="toggleSection(this)">
+                                <span class="collapsible-title">Geographic & Population Focus</span>
+                                <span class="collapsible-arrow">▼</span>
+                            </div>
+                            <div class="collapsible-content">
+                                <div class="collapsible-body">
+                                    <div class="context-grid">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-local" name="context" value="local">
+                                            <label for="ctx-local" class="checkbox-label">
+                                                <span class="checkbox-title">Local/Community Focus</span>
+                                                <span class="checkbox-description">Serving specific city or region</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-rural" name="context" value="rural">
+                                            <label for="ctx-rural" class="checkbox-label">
+                                                <span class="checkbox-title">Rural Communities</span>
+                                                <span class="checkbox-description">Focus on rural or underserved areas</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-bipoc" name="context" value="bipoc">
+                                            <label for="ctx-bipoc" class="checkbox-label">
+                                                <span class="checkbox-title">BIPOC Communities</span>
+                                                <span class="checkbox-description">Serving communities of color</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="ctx-women" name="context" value="women">
+                                            <label for="ctx-women" class="checkbox-label">
+                                                <span class="checkbox-title">Women & Girls</span>
+                                                <span class="checkbox-description">Programs serving women and girls</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Organization Context -->
+                    <div class="section">
+                        <div class="section-title">Organization Context</div>
+                        <label for="org-description">Organization Description</label>
+                        <textarea id="org-description" rows="4" placeholder="Describe your organization's mission, programs, and target population..."></textarea>
+                        <p class="input-hint">Provide context about your organization to help Claude find more relevant grants</p>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Research Button -->
+                    <button class="btn btn-primary btn-full" onclick="startResearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        Start Grant Research
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-area">
+            <div class="panel">
+                <div class="panel-header">Research Results</div>
+                <div class="panel-body">
+                    <div class="results-header">
+                        <div class="results-count" id="results-count">0 grants found</div>
+                        <div class="results-actions">
+                            <button class="btn btn-secondary btn-icon" onclick="downloadWord()" id="download-btn" style="display: none;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download Word
+                            </button>
+                        </div>
+                    </div>
+                    <div class="results-content" id="results-content">
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <h3>Ready to Search</h3>
+                            <p>Configure your parameters and click "Start Grant Research" to begin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // Configuration
+        // ============================================
+        const CONFIG = {
+            // Update this with your backend URL
+            API_BASE_URL: window.location.hostname === 'localhost' 
+                ? 'http://localhost:3000'
+                : 'https://your-backend-url.herokuapp.com'  // Change this to your deployed backend URL
+        };
+
+        // ============================================
+        // Global State
+        // ============================================
+        let currentResults = null;
+
+        // ============================================
+        // UI Functions
+        // ============================================
+        function toggleSection(header) {
+            const section = header.parentElement;
+            section.classList.toggle('open');
+        }
+
+        function getSelectedContexts() {
+            const checkboxes = document.querySelectorAll('input[name="context"]:checked');
+            return Array.from(checkboxes).map(cb => ({
+                id: cb.value,
+                label: cb.nextElementSibling.querySelector('.checkbox-title').textContent,
+                description: cb.nextElementSibling.querySelector('.checkbox-description').textContent
+            }));
+        }
+
+        function displayResults(responseText) {
+            const resultsContent = document.getElementById('results-content');
+            
+            resultsContent.innerHTML = `
+                <div style="white-space: pre-wrap; line-height: 1.8; color: var(--color-text-primary);">
+                    ${escapeHtml(responseText)}
+                </div>
+            `;
+
+            const grantMatches = responseText.match(/grant|funding|foundation/gi) || [];
+            const estimatedGrants = Math.min(Math.floor(grantMatches.length / 5), 50);
+            document.getElementById('results-count').textContent = `~${estimatedGrants} opportunities found`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============================================
+        // Research Function
+        // ============================================
+        async function startResearch() {
+            const systemPrompt = document.getElementById('system-prompt').value;
+            const orgDescription = document.getElementById('org-description').value;
+            const selectedContexts = getSelectedContexts();
+
+            const resultsContent = document.getElementById('results-content');
+            resultsContent.innerHTML = `
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                        Researching Grants
+                    </h3>
+                    <p style="color: var(--color-text-muted);">Claude is searching for relevant funding opportunities...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/research`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: systemPrompt,
+                        orgDescription: orgDescription,
+                        contextParameters: selectedContexts
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Research failed');
+                }
+
+                const data = await response.json();
+                currentResults = {
+                    text: data.data.analysis.content[0].text,
+                    orgDescription: orgDescription,
+                    contextParameters: selectedContexts,
+                    timestamp: new Date().toISOString()
+                };
+                
+                displayResults(currentResults.text);
+                
+                // Show download button
+                document.getElementById('download-btn').style.display = 'inline-flex';
+
+            } catch (error) {
+                console.error('Research error:', error);
+                resultsContent.innerHTML = `
+                    <div class="empty-state">
+                        <h3 style="color: var(--color-error);">Research Failed</h3>
+                        <p>${error.message}</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Please check that the backend server is running and try again.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // Word Document Download
+        // ============================================
+        async function downloadWord() {
+            if (!currentResults) {
+                alert('No results to download');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/generate-word`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(currentResults)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate Word document');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `grant-research-${new Date().toISOString().split('T')[0]}.docx`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Failed to download Word document. Make sure the backend server is running.');
+            }
+        }
+    </script>
+</body>
+</html>
