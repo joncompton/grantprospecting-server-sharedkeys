@@ -1,8 +1,6 @@
 # Original Grant Prospecting Tool - Backend Version
 
-## 📦 Files for the Original Version
-
-This is the **first version** we built - clean interface, API keys stored on the server, no client-side key management.
+## 📦 Files for the this Version
 
 ### Core Files:
 1. **grant-prospecting.html** - Frontend (no API key inputs visible)
@@ -286,7 +284,7 @@ curl -X POST http://localhost:3000/api/research \
 
 ---
 
-## ✨ This Version is Best For:
+## ✨ This Version is better for:
 
 ✅ **Organizations** - Centralized API key management  
 ✅ **Teams** - Multiple users, one API key  
