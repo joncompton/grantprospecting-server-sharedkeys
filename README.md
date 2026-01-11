@@ -1,10 +1,9 @@
-# Grant Prospecting Tool - Original Backend Version
+# Grant Prospecting Tool - Backend Version
 
 AI-powered grant discovery using Claude Research Mode and Candid data. API keys stored securely on the server - users never see or manage them.
 
 ## 🎯 What This Is
 
-The **original, clean version** where:
 - API keys are stored on the server (in `.env` file)
 - Users see only: system prompt, context parameters, organization description
 - **No API key inputs in the interface** - completely hidden
@@ -23,9 +22,9 @@ Download these 7 files:
 - `backend-server.js`
 - `word-generator.js`
 - `package.json`
-- `.env.example-original` (rename to `.env`)
+- `.env`
 - `.gitignore`
-- `ORIGINAL_VERSION_SETUP.md` (detailed guide)
+- `SETUP.md` (detailed guide)
 
 ### 2. Install Dependencies
 ```bash
@@ -33,7 +32,7 @@ npm install
 ```
 
 ### 3. Add Your API Key
-Rename `.env.example-original` to `.env` and edit:
+Edit:
 ```env
 CLAUDE_API_KEY=sk-ant-your-actual-key-here
 ```
@@ -77,8 +76,6 @@ Users **DON'T** see:
 - ❌ API key inputs
 - ❌ Authentication forms
 - ❌ Settings or configuration
-
-It's beautifully simple for end users.
 
 ---
 
@@ -164,8 +161,6 @@ Choose the **standalone version** if you:
 6. Results appear in seconds
 7. Clicks "Download Word" for professional report
 
-All without ever seeing or managing an API key!
-
 ---
 
 ## 🔧 Configuration
@@ -182,9 +177,6 @@ CLAUDE_API_KEY=sk-ant-your-key
 CANDID_API_KEY=optional-candid-key
 PORT=3000
 ```
-
-That's all the configuration needed!
-
 ---
 
 ## 🐛 Troubleshooting
@@ -215,17 +207,14 @@ More help: See `ORIGINAL_VERSION_SETUP.md`
 
 ## 🎉 Summary
 
-This is the **clean, professional version** with:
 - No user-facing API key management
 - Server-side API calls
 - Word document export
 - 20+ context parameters
-- Beautiful interface
+- Better for organizations and teams.
 
-Perfect for organizations and teams!
-
-**Get Started:** Download the files above, run `npm install`, add your API key to `.env`, and run `node backend-server.js`. That's it! 🚀
+**Get Started:** Download the files above, run `npm install`, add your API key to `.env`, and run `node backend-server.js`.
 
 ---
 
-**Questions?** See the detailed `ORIGINAL_VERSION_SETUP.md` guide for everything you need to know.
+**Questions?** See the detailed `SETUP.md` guide for everything you need to know.
